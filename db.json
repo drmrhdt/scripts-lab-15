@@ -1,0 +1,64 @@
+{
+  "people": [
+    {
+      "firstName": "dari",
+      "secondName": "dari",
+      "middleName": "dari",
+      "series": "0000",
+      "number": "000000",
+      "email": "agent@email.com",
+      "telephone": "+7(999)999-99-99",
+      "id": 10
+    },
+    {
+      "firstName": "dora",
+      "secondName": "dora",
+      "middleName": "dora",
+      "series": "9999",
+      "number": "999999",
+      "email": "dora@mail.ru",
+      "telephone": "+7(999)999-99-99",
+      "id": 11
+    },
+    {
+      "firstName": "dira",
+      "secondName": "dira",
+      "middleName": "dira",
+      "series": "0000",
+      "number": "000000",
+      "email": "example@mail.ru",
+      "telephone": "+7(888)888-88-88",
+      "id": 12
+    },
+    {
+      "firstName": "ddd",
+      "secondName": "ddd",
+      "middleName": "ddd",
+      "series": "9999",
+      "number": "999999",
+      "email": "agent@email.com",
+      "telephone": "+7(999)999-99-99",
+      "id": 13
+    },
+    {
+      "firstName": "dira",
+      "secondName": "dira",
+      "middleName": "dira",
+      "series": "9999",
+      "number": "999999",
+      "email": "example@mail.ru",
+      "telephone": "+7(999)999-99-99",
+      "id": 14
+    },
+    {
+      "firstName": "dors",
+      "secondName": "dors",
+      "middleName": "dors",
+      "series": "0000",
+      "number": "000000",
+      "email": "dors@mail.ru",
+      "telephone": "+7(999)999-99-99",
+      "id": 15
+    }
+  ]
+}
