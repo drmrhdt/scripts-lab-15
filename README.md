@@ -1,7 +1,10 @@
 # scripts-lab-15
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Небольшой проект с формой добавления данных о пользователе в базу данных, вывода списка пользователей в виде таблицы, возможностью изменять данные в таблице и фильтровать вывод по имени/фамилии. (Основное: React, Redux+Thunk, React Router)
 
-In the first terminal:
+Использован Create React App(https://github.com/facebook/create-react-app).
+
+# Запуск
+В первом терминале:
 ### `json-server --watch db.json`
-In the second terminal:
+Во втором терминале:
 ### `npm start`
