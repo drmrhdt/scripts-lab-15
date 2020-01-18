@@ -27,7 +27,6 @@ export default class Row extends Component {
   render() {
     return (
       <tr>
-        <th>{this.props.id}</th>
         <td>{this.state.firstName}</td>
         <td>{this.state.secondName}</td>
         <td>{this.state.middleName}</td>

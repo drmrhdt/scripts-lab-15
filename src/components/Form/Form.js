@@ -3,7 +3,11 @@ import validator from "email-validator";
 import { telephoneReg, seriesReg, numberReg } from "../../regex/regex";
 import MaskedInput from "react-text-mask";
 import { withRouter, Link } from "react-router-dom";
-import { getPerson, addPerson, changePerson } from "../../utilities/fetch";
+// import { getPerson, changePerson } from "../../utilities/fetch";
+
+import * as firebase from "firebase";
+import "../../firebase/config";
+var db = firebase.firestore();
 
 class Form extends Component {
   state = {
@@ -17,22 +21,8 @@ class Form extends Component {
   };
 
   addPerson = () => {
-    addPerson({
-      firstName: this.state.firstName,
-      secondName: this.state.secondName,
-      middleName: this.state.middleName,
-      series: this.state.series,
-      number: this.state.number,
-      email: this.state.email,
-      telephone: this.state.telephone
-    });
-    this.clearInputs();
-  };
-
-  changePerson = () => {
-    const id = this.props.match.params.id;
-    changePerson(
-      {
+    db.collection("users")
+      .add({
         firstName: this.state.firstName,
         secondName: this.state.secondName,
         middleName: this.state.middleName,
@@ -40,9 +30,27 @@ class Form extends Component {
         number: this.state.number,
         email: this.state.email,
         telephone: this.state.telephone
-      },
-      id
-    );
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+  };
+
+  changePerson = () => {
+    db.collection("users")
+      .doc(`${this.props.match.params.id}`)
+      .update({
+        firstName: this.state.firstName,
+        secondName: this.state.secondName,
+        middleName: this.state.middleName,
+        series: this.state.series,
+        number: this.state.number,
+        email: this.state.email,
+        telephone: this.state.telephone
+      });
   };
 
   isDisabled = () => {
@@ -62,17 +70,21 @@ class Form extends Component {
 
   async componentDidMount() {
     if (this.props.mode === "edit") {
-      const id = this.props.match.params.id;
-      const person = await getPerson(id);
-      this.setState({
-        firstName: person.firstName,
-        secondName: person.secondName,
-        middleName: person.middleName,
-        series: person.series,
-        number: person.number,
-        email: person.email,
-        telephone: person.telephone
-      });
+      db.collection("users")
+        .doc(this.props.match.params.id)
+        .get()
+        .then(doc => {
+          if (doc.exists) {
+            this.setState({
+              ...doc.data()
+            });
+          } else {
+            console.log("No such document!");
+          }
+        })
+        .catch(function(error) {
+          console.log("Error getting document:", error);
+        });
     }
   }
 
@@ -238,7 +250,7 @@ class Form extends Component {
             </button>
           ) : (
             <Link
-              to="/users"
+              to="/"
               className="btn btn-primary"
               onClick={this.changePerson}
             >
@@ -250,9 +262,9 @@ class Form extends Component {
             Добавить
           </button>
         ) : (
-          <button className="btn btn-primary" onClick={this.addPerson}>
+          <Link to="/" className="btn btn-primary" onClick={this.addPerson}>
             Добавить
-          </button>
+          </Link>
         )}
       </div>
     );

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import FilterInput from "../FilterInput";
-import { deletePerson, getPeople } from "../../utilities/fetch";
 import List from "../List";
+
+import * as firebase from "firebase";
+import "../../firebase/config";
+var db = firebase.firestore();
 
 export default class UsersTable extends Component {
   state = {
@@ -25,7 +28,10 @@ export default class UsersTable extends Component {
         person => person.id !== id
       )
     }));
-    deletePerson(parseInt(id));
+
+    db.collection("users")
+      .doc(`${id}`)
+      .delete();
   };
 
   filterPeople = input => {
@@ -37,9 +43,18 @@ export default class UsersTable extends Component {
     this.setState({ filteredPeople: filteredPeople });
   };
 
-  async componentDidMount() {
-    const people = await getPeople();
-    this.setState({ people: people });
+  componentDidMount() {
+    db.collection("users").onSnapshot(snapshot => {
+      const users = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      this.setState({ people: users });
+    });
+  }
+
+  componentWillUnmount() {
+    this.setState({ people: [], filteredPeople: [] });
   }
 
   render() {
@@ -57,7 +72,6 @@ export default class UsersTable extends Component {
         <table className="table table-hover table-striped mx-auto table-dark">
           <thead className="text-light">
             <tr>
-              <th>ID</th>
               <th>Имя</th>
               <th>Фамилия</th>
               <th>Отчество</th>
@@ -69,7 +83,7 @@ export default class UsersTable extends Component {
             </tr>
           </thead>
           <tbody className="text-light">
-            {people.length ? (
+            {people && people.length ? (
               <List people={people} deletePerson={this.deletePerson} />
             ) : (
               <tr>

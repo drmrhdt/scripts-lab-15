@@ -5,7 +5,7 @@ export default class List extends Component {
   render() {
     return this.props.people.map(person => (
       <Row
-        key={Math.random()}
+        key={person.id}
         id={person.id}
         person={person}
         deletePerson={this.props.deletePerson}
